@@ -31,22 +31,53 @@ public class ChainingHashTable <K,V> implements DeletelessDictionary<K,V>{
 
     // TODO
     public V find(K key){
+        // Find the key's bucket 
+        int bucket = key.hashCode() % size;
+        // Iterate through the given LinkedList until we find and return the value
+        for (Item<K, V> item : table[bucket]) {
+            if (item.key == key) {
+                return item.value;
+            }
+        }
+
+        // If we didn't find the key then it isn't in the table and return null
         return null;
     }
 
     // TODO
     public boolean contains(K key){
-        return false;
+        // If the key is found in the table (not null) return true, otherwise it isn't contained
+        return find(key) != null ? true : false;
     }
 
     // TODO
     public List<K> getKeys(){
-        return new ArrayList<>();
+        // Initialize an ArrayList to store each key in
+        ArrayList<K> keys = new ArrayList<>();
+        // For each bucket in the table loop through each of its elements
+        for (List<Item<K, V>> bucket : table) {
+            for (Item<K, V> item : bucket) {
+                keys.add(item.key);
+            }
+        }
+
+        // Return the filled list of keys
+        return keys;
     }
 
     // TODO
     public List<V> getValues(){
-        return new ArrayList<>();
+        // Initialize an ArrayList to store each value in
+        ArrayList<V> values = new ArrayList<>();
+        // For each bucket in the table loop through each of its elements
+        for (List<Item<K, V>> bucket : table) {
+            for (Item<K, V> item : bucket) {
+                values.add(item.value);
+            }
+        }
+
+        // Return the filled list of values
+        return values;
     }
 
     public String toString(){
