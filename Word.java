@@ -85,8 +85,13 @@ public class Word<T> {
         return true;
     }
 
-    //TODO
     public int hashCode(){
+        long hash = 0;
+        for (int i = 0; i < slice.length; i++) {
+            hash = hash * 37 + slice[i].hashCode();
+        }
+
+
         return -1;
     }
 
