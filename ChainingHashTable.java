@@ -24,15 +24,38 @@ public class ChainingHashTable <K,V> implements DeletelessDictionary<K,V>{
         return size;
     }
 
-    // TODO
+    // Function to resize the hash table
+    private void resize() {
+        // TODO
+    }
+
     public V insert(K key, V value){
+        // Resize if load factor is greater than or equal to 3
+        if (size / table.length >= 3) {
+            resize();
+        }
+
+        // Find the bucket for the given key
+        List<Item<K, V>> bucket = table[key.hashCode() % table.length];
+        // Iterate through bucket looking for key, if we find it update value and return
+        for (Item<K, V> item : bucket) {
+            if (item.key == key) {
+                V tmp = item.value;
+                item.value = value;
+                return tmp;
+            }
+        }
+        // If we made it through the loop then the key doesn't exist yet and we can add it to the head of the bucket
+        Item<K, V> new_item = new Item<K, V>(key, value);
+        bucket.add(new_item);
+
+        // There was no old value so return null
         return null;
     }
 
-    // TODO
     public V find(K key){
         // Find the key's bucket 
-        int bucket = key.hashCode() % size;
+        int bucket = key.hashCode() % table.length;
         // Iterate through the given LinkedList until we find and return the value
         for (Item<K, V> item : table[bucket]) {
             if (item.key == key) {
@@ -44,13 +67,11 @@ public class ChainingHashTable <K,V> implements DeletelessDictionary<K,V>{
         return null;
     }
 
-    // TODO
     public boolean contains(K key){
         // If the key is found in the table (not null) return true, otherwise it isn't contained
         return find(key) != null ? true : false;
     }
 
-    // TODO
     public List<K> getKeys(){
         // Initialize an ArrayList to store each key in
         ArrayList<K> keys = new ArrayList<>();
@@ -65,7 +86,6 @@ public class ChainingHashTable <K,V> implements DeletelessDictionary<K,V>{
         return keys;
     }
 
-    // TODO
     public List<V> getValues(){
         // Initialize an ArrayList to store each value in
         ArrayList<V> values = new ArrayList<>();
