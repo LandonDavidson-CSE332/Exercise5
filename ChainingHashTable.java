@@ -54,8 +54,14 @@ public class ChainingHashTable <K,V> implements DeletelessDictionary<K,V>{
             table = (LinkedList<Item<K,V>>[]) Array.newInstance(LinkedList.class, next_size);
         }
 
+        // Fill the new table with LinkedLists's
+        for (int i = 0; i < table.length; i++) {
+            table[i] = new LinkedList<>();
+        }
+
         // Now iterate through all of the old keys and values and insert them into the new table
-        for (int i = 0; i < size; i++) {
+        size = 0;
+        for (int i = 0; i < keys.size(); i++) {
             insert(keys.get(i), values.get(i));
         }
     }
@@ -68,14 +74,15 @@ public class ChainingHashTable <K,V> implements DeletelessDictionary<K,V>{
 
         // Find the bucket for the given key
         List<Item<K, V>> bucket = table[key.hashCode() % table.length];
-        // Iterate through bucket looking for key, if we find it update value and return
-        for (Item<K, V> item : bucket) {
-            if (item.key.equals(key)) {
-                V tmp = item.value;
-                item.value = value;
-                return tmp;
+
+            // Iterate through bucket looking for key, if we find it update value and return
+            for (Item<K, V> item : bucket) {
+                if (item.key.equals(key)) {
+                    V tmp = item.value;
+                    item.value = value;
+                    return tmp;
+                }
             }
-        }
         // If we made it through the loop then the key doesn't exist yet and we can add it to the head of the bucket
         Item<K, V> new_item = new Item<K, V>(key, value);
         bucket.add(new_item);
