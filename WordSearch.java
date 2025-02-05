@@ -12,29 +12,48 @@ public class WordSearch<T> {
         for(Word<T> word : dictionary){
             seen.insert(word, false);
         }
-	wordSearch();
+	    wordSearch();
     }
 
-    //TODO
     // if the given word is valid then mark it as seen in the hash table.
     // this operation should run in constant time.
     private void addIfWord(Word<T> word){
+        // If word is in the dictionary then mark it as seen
+        if (seen.contains(word)) {
+            seen.insert(word, true);
+        }
     }
 
-    //TODO
     // returns the number of valid words found in the grid.
     // this operation should run in linear time in terms of the
     // size of the data structure.
     public int countWords(){
-        return -1;
+        // Iterate through all values in the dictionary and if the value is true increment count
+        int count = 0;
+        List<Boolean> values = seen.getValues();
+        for (boolean wasSeen : values) {
+            if (wasSeen) {
+                count++;
+            }
+        }
+        return count;
     }
 
-    //TODO
     // returns the list of valid words found in the grid.
     // this operation should run in linear time in terms of the
     // size of the data structure.
     public List<Word<T>> getWords(){
-        return new ArrayList<>();
+        // Loop through each entry in the seen dict and if the value is true add the word to found_words
+        ArrayList<Word<T>> found_words = new ArrayList<>();
+        List<Word<T>> words = seen.getKeys();
+        List<Boolean> values = seen.getValues();
+        for (int i = 0; i < seen.size(); i++) {
+            if (values.get(i)) {
+                found_words.add(words.get(i));
+            }
+        }
+
+        return found_words;
     }
 
     // Performs the word search.
