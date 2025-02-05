@@ -88,9 +88,9 @@ public class Word<T> {
     public int hashCode(){
         int hash = 0;
         for (int i = 0; i < slice.length; i++) {
-            hash = hash * 37 + slice[i].hashCode();
+            hash = hash * 31 + slice[i].hashCode();
         }
-        return hash;
+        return hash > 0 ? hash : -hash;
     }
 
     public String toString(){
