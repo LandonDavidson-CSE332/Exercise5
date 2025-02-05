@@ -70,7 +70,7 @@ public class ChainingHashTable <K,V> implements DeletelessDictionary<K,V>{
         List<Item<K, V>> bucket = table[key.hashCode() % table.length];
         // Iterate through bucket looking for key, if we find it update value and return
         for (Item<K, V> item : bucket) {
-            if (item.key == key) {
+            if (item.key.equals(key)) {
                 V tmp = item.value;
                 item.value = value;
                 return tmp;
@@ -86,11 +86,11 @@ public class ChainingHashTable <K,V> implements DeletelessDictionary<K,V>{
     }
 
     public V find(K key){
-        // Find the key's bucket 
-        int bucket = key.hashCode() % table.length;
+        // Find the bucket for the given key
+        List<Item<K, V>> bucket = table[key.hashCode() % table.length];
         // Iterate through the given LinkedList until we find and return the value
-        for (Item<K, V> item : table[bucket]) {
-            if (item.key == key) {
+        for (Item<K, V> item : bucket) {
+            if (item.key.equals(key)) {
                 return item.value;
             }
         }
