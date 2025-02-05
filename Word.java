@@ -86,7 +86,7 @@ public class Word<T> {
     }
 
     public int hashCode(){
-        long hash = 0;
+        int hash = 0;
         for (int i = 0; i < slice.length; i++) {
             hash = hash * 37 + slice[i].hashCode();
         }
