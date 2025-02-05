@@ -90,9 +90,7 @@ public class Word<T> {
         for (int i = 0; i < slice.length; i++) {
             hash = hash * 37 + slice[i].hashCode();
         }
-
-
-        return -1;
+        return hash;
     }
 
     public String toString(){
